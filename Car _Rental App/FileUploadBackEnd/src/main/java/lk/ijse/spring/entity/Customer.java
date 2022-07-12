@@ -1,6 +1,11 @@
 package lk.ijse.spring.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Customer {
+    @Id
     private String customerID;
     private String customerName;
     private String customerAddress;

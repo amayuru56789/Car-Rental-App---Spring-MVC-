@@ -1,7 +1,8 @@
-package lk.ijse.spring.service;
+package lk.ijse.spring.service.Impl;
 
 import lk.ijse.spring.entity.Customer;
 import lk.ijse.spring.repo.CustomerRepo;
+import lk.ijse.spring.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Service //put for the Application Context
 @Transactional // introduce aspect for Transaction manager
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepo customerRepo;
@@ -32,7 +33,12 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void updateCustomer(Customer entity){
-        customerRepo.save(entity);
+        if(customerRepo.existsById(entity.getCustomerID())){
+            customerRepo.save(entity);
+        }else {
+            throw new RuntimeException("No Such as Customer To Update...! Please Check the ID...!");
+        }
+
     }
 
     @Override

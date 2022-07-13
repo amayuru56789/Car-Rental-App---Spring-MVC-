@@ -22,7 +22,7 @@ public class JPAConfig {
 
     /*main factory for manage Spring Data JPA*/
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(DataSource ds, JpaVendorAdapter va){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds, JpaVendorAdapter va){
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         bean.setJpaVendorAdapter(va); // Vendor (Hibernate)
         bean.setDataSource(ds); // Connection

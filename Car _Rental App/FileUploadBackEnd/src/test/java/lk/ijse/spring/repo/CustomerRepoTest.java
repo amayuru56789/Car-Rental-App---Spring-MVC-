@@ -46,4 +46,17 @@ class CustomerRepoTest {
         System.out.println(customer.toString());
     }
 
+    @Test
+    public void deleteCustomer(){
+        customerRepo.deleteById("C001");
+    }
+
+    @Test
+    public void updateCustomer(){
+        if (customerRepo.existsById("C001")){
+            Customer customer = new Customer("C001", "tonny", "Colombo", "+94769689591", "12", "12");
+            customerRepo.save(customer);
+        }
+    }
+
 }

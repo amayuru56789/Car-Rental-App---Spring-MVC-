@@ -73,7 +73,7 @@ public class Customer {
         this.nicCard = nicCard;
     }
 
-    /*@Override
+    @Override
     public String toString() {
         return "Customer{" +
                 "customerID='" + customerID + '\'' +
@@ -83,5 +83,5 @@ public class Customer {
                 ", license='" + license + '\'' +
                 ", nicCard='" + nicCard + '\'' +
                 '}';
-    }*/
+    }
 }

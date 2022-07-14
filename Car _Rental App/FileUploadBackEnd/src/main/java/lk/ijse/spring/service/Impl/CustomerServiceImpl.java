@@ -48,7 +48,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer searchCustomer(String id){
-        return customerRepo.findById(id).get();
+        if (customerRepo.existsById(id)){
+            return customerRepo.findById(id).get();
+        }else {
+            throw new RuntimeException("No Customer For "+id+" ...!");
+        }
+        /*return customerRepo.findById(id).get();*/
     }
 
     @Override

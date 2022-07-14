@@ -4,18 +4,22 @@ import lk.ijse.spring.entity.Employee;
 import lk.ijse.spring.repo.EmployeeRepo;
 import lk.ijse.spring.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
-    private EmployeeRepo repo;
+    private EmployeeRepo employeeRepo;
 
     @Override
     public void saveEmployee(Employee entity) {
-        if(!repo.existsById(entity.getEmpID())){
-            repo.save(entity);
+        if(!employeeRepo.existsById(entity.getEmpID())){
+            employeeRepo.save(entity);
         }else {
             throw new RuntimeException("Employee already exist...");
         }
@@ -23,8 +27,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployee(String id) {
-        if (repo.existsById(id)){
-            repo.deleteById(id);
+        if (employeeRepo.existsById(id)){
+            employeeRepo.deleteById(id);
         }else {
             throw new RuntimeException("Please check the Employee ID.. no Such as Employee...!");
         }
@@ -32,8 +36,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void updateEmployee(Employee entity) {
-        if(repo.existsById(entity.getEmpID())){
-            repo.save(entity);
+        if(employeeRepo.existsById(entity.getEmpID())){
+            employeeRepo.save(entity);
         }else {
             throw new RuntimeException("No Such as Employee To Update...! Please Check the ID...!");
         }
@@ -41,8 +45,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee searchEmployee(String id) {
-        if (repo.existsById(id)){
-            return repo.findById(id).get();
+        if (employeeRepo.existsById(id)){
+            return employeeRepo.findById(id).get();
         }else {
             throw new RuntimeException("No Employee For "+id+" ...!");
         }
@@ -50,6 +54,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAllEmployees() {
-        return repo.findAll();
+        return employeeRepo.findAll();
     }
 }

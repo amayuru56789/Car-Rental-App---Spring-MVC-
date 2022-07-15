@@ -1,6 +1,11 @@
 package lk.ijse.spring.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Dammage {
+    @Id
     private String damageId;
     private String damageType;
     private int lossDmg;

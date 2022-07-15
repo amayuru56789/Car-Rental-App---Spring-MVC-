@@ -1,6 +1,11 @@
 package lk.ijse.spring.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Payment {
+    @Id
     private String payId;
     private double dailyRate;
     private double monthlyRate;

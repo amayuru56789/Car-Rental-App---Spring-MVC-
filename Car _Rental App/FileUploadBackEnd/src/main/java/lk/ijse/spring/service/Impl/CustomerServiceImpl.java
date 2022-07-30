@@ -4,6 +4,8 @@ import lk.ijse.spring.dto.CustomerDTO;
 import lk.ijse.spring.entity.Customer;
 import lk.ijse.spring.repo.CustomerRepo;
 import lk.ijse.spring.service.CustomerService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +20,18 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepo customerRepo;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public void saveCustomer(CustomerDTO dto){
         if(!customerRepo.existsById(dto.getCustomerID())){
 
-            Customer customer = new Customer(dto.getCustomerID(), dto.getCustomerName(), dto.getCustomerAddress(), dto.getContact(), dto.getLicense(), dto.getNicCard());
+            /*Customer customer = new Customer(dto.getCustomerID(), dto.getCustomerName(), dto.getCustomerAddress(), dto.getContact(), dto.getLicense(), dto.getNicCard());*/
+            /*----------Convert for Customer entity type---------*/
+            Customer entity = modelMapper.map(dto, Customer.class);
 
-            customerRepo.save(customer);
+            customerRepo.save(entity);
         }else {
             throw new RuntimeException("Customer already exist...");
         }
@@ -45,9 +52,10 @@ public class CustomerServiceImpl implements CustomerService {
     public void updateCustomer(CustomerDTO dto){
         if(customerRepo.existsById(dto.getCustomerID())){
 
-            Customer customer = new Customer(dto.getCustomerID(), dto.getCustomerName(), dto.getCustomerAddress(), dto.getContact(), dto.getLicense(), dto.getNicCard());
+            /*Customer customer = new Customer(dto.getCustomerID(), dto.getCustomerName(), dto.getCustomerAddress(), dto.getContact(), dto.getLicense(), dto.getNicCard());*/
+            Customer entity = modelMapper.map(dto, Customer.class);
 
-            customerRepo.save(customer);
+            customerRepo.save(entity);
         }else {
             throw new RuntimeException("No Such as Customer To Update...! Please Check the ID...!");
         }
@@ -59,7 +67,8 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerRepo.existsById(id)){
 //            return customerRepo.findById(id).get();
             Customer customer = customerRepo.findById(id).get();
-            return new CustomerDTO(customer.getCustomerID(), customer.getCustomerName(), customer.getCustomerAddress(), customer.getContact(), customer.getLicense(), customer.getNicCard());
+            return modelMapper.map(customer, CustomerDTO.class);
+            /*return new CustomerDTO(customer.getCustomerID(), customer.getCustomerName(), customer.getCustomerAddress(), customer.getContact(), customer.getLicense(), customer.getNicCard());*/
         }else {
             throw new RuntimeException("No Customer For "+id+" ...!");
         }
@@ -69,11 +78,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<CustomerDTO> getAllCustomers(){
         List<Customer> all = customerRepo.findAll();
-        List<CustomerDTO> arrayList = new ArrayList<>();
+        /*List<CustomerDTO> arrayList = new ArrayList<>();
         for (Customer customer : all) {
             arrayList.add(new CustomerDTO(customer.getCustomerID(), customer.getCustomerName(), customer.getCustomerAddress(), customer.getContact(), customer.getLicense(), customer.getNicCard()));
         }
-        return arrayList;
+        return arrayList;*/
         /*return customerRepo.findAll();*/
+        return modelMapper.map(all, new TypeToken<List<CustomerDTO>>(){
+
+        }.getType());
     }
 }
